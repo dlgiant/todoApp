@@ -1,11 +1,12 @@
-import React, { useEffect, useReducer } from 'react';
-import { API, graphqlOperation } from 'aws-amplify';
-import uuid from 'uuid/v4';
-import { List, Input, Button } from 'antd';
+import React, { useEffect, useReducer } from 'react'
+import { API, graphqlOperation } from 'aws-amplify'
+import uuid from 'uuid/v4'
+import { List, Input, Button } from 'antd'
 import 'antd/dist/antd.css';
 import { listTodos } from './graphql/queries'
 import { onCreateTodo } from './graphql/subscriptions'
 import { updateTodo as UpdateTodo, createTodo as CreateTodo, deleteTodo as DeleteTodo } from './graphql/mutations';
+import Container from './Container'
 import './App.css';
 
 const CLIENT_ID = uuid();
@@ -38,7 +39,7 @@ function reducer(state, action){
 }
 
 
-function App() {
+function Todos() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   async function fetchNotes(){
@@ -138,31 +139,34 @@ function App() {
 
   return (
     <div style={styles.container}>
-      <Input
-        onChange={onChange}
-        value={state.form.name}
-        placeholder="Todo name"
-        name='name'
-        style={styles.input}
-      />
-      <Input
-        onChange={onChange}
-        value={state.form.description}
-        placeholder="Todo Description"
-        name='description'
-        style={styles.input}
-      />
-      <Button
-        onClick={createTodo}
-        type='primary'
-      >Create Todo</Button>
-      <List
-        loading={state.loading}
-        dataSource={state.notes}
-        renderItem={renderItem}
-      />
+      <Container>
+        <Input
+          onChange={onChange}
+          value={state.form.name}
+          placeholder="Todo name"
+          name='name'
+          style={styles.input}
+        />
+        <Input
+          onChange={onChange}
+          value={state.form.description}
+          placeholder="Todo Description"
+          name='description'
+          style={styles.input}
+        />
+        <Button
+          onClick={createTodo}
+          type='primary'
+        >Create Todo</Button>
+        <h1>TODOS</h1>
+        <List
+          loading={state.loading}
+          dataSource={state.notes}
+          renderItem={renderItem}
+        />
+      </Container>
     </div>
   );
 }
 
-export default App;
+export default Todos;
